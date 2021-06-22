@@ -1,0 +1,155 @@
+{
+  "settings": [
+	{
+      "id": "variab",
+      "name": "Individual property variable",
+      "description": "Select an individual property by which you want to filter your data. See below the possibility to select another option by 'other'. Note that depending on the variable type only some relation types make sense.",
+      "defaultValue": null,
+      "type": "RADIOBUTTONS",
+      "options": [
+        {
+          "value": "comments",
+          "displayText": "Comments"
+        },
+		        {
+          "value": "exact_date_of_birth",
+          "displayText": "Exact date of birth (timestamp)"
+        },
+		        {
+          "value": "local_identifier",
+          "displayText": "Individual identifier"
+        },
+		        {
+          "value": "nick_name",
+          "displayText": "Nick name"
+        },
+				        {
+          "value": "sex",
+          "displayText": "Sex"
+        },
+				        {
+          "value": "taxon_canonical_name",
+          "displayText": "Taxon canonical name"
+        },
+				        {
+          "value": "timestamp_start",
+          "displayText": "Time of track start (timestamp)"
+        },
+						        {
+          "value": "timestamp_end",
+          "displayText": "Time of track end (timestamp)"
+        },
+						        {
+          "value": "number_of_events",
+          "displayText": "Number of locations/events (numeric)"
+        },
+						        {
+          "value": "number_of_deployments",
+          "displayText": "Number of deployments to this animal (numeric)"
+        },
+								        {
+          "value": "sensor_type_ids",
+          "displayText": "Available sensor types"
+        },
+								        {
+          "value": "other",
+          "displayText": "Other property: (name below)"
+        }
+      ]
+	},
+	{
+      "id": "other",
+      "name": "Other: ",
+      "description": "Insert the name of your individual property in the exact spelling as provided in your data set.",
+      "defaultValue": null,
+      "type": "STRING"
+    },
+	{
+      "id": "rel",
+      "name": "Relation of your property",
+      "description": "Select a relation of your variable to the below value. Note that only numeric and timestamp variables allow for relations like '==', '>' or '<'.",
+      "defaultValue": null,
+      "type": "RADIOBUTTONS",
+      "options": [
+        {
+          "value": "%in%",
+          "displayText": "is one of the following options"
+        },
+		        {
+          "value": "==",
+          "displayText": "== (equals)"
+        },
+		        {
+          "value": ">",
+          "displayText": "> (is greater than)"
+        },
+		        {
+          "value": "<",
+          "displayText": "< (is smaller than)"
+        }
+      ]
+	},
+	{
+      "id": "valu",
+      "name": "Value to your relation",
+      "description": "Insert a value/values for your relation. For 'is one of the follwing options' please use commas for separation. If you enter a timestamp, please follow the format 'YYYY-mm-dd HH:MM:SS'.",
+      "defaultValue": null,
+      "type": "STRING"
+    },
+	{
+      "id": "time",
+      "name": "Time variable?",
+      "description": "Please tick if your variable is a timestamp. If so, check again that you have followed the format 'YYYY-mm-dd HH:MM:SS'.",
+      "defaultValue": false,
+      "type": "CHECKBOX"
+    }
+  ],
+  "dependencies": {
+    "R": [
+      {
+        "name": "move"
+      }
+    ]
+  },
+  "license": {
+    "key": "MIT"
+  },
+  "language": "eng",
+  "keywords": [
+	"filter",
+    "individual properties",
+	"individual data",
+	"reference data"
+  ],
+  "people": [
+    {
+      "firstName": "Andrea",
+      "middleInitials": null,
+      "lastName": "Kölzsch",
+      "email": "akoelzsch@ab.mpg.de",
+      "roles": ["compiler","author","creator"],
+      "orcid": "0000-0003-0193-1563",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
+    },
+	{
+      "firstName": "Kamran",
+      "middleInitials": null,
+      "lastName": "Safi",
+      "email": ,
+      "roles": ["contributor"],
+      "orcid": "",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
+    }
+  ],
+  "funding": [
+    {
+	"name": "Knobloch Family Foundation",
+	"comment": "grant for Migration Mapper (MPIAB)"
+	}
+  ],
+  "documentation" : {
+    "url": "https://github.com/movestore/Filter-by-IdData/blob/main/README.md"
+  }
+}
