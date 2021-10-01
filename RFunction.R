@@ -2,7 +2,7 @@ library('move')
 
 rFunction <- function(data,variab,other=NULL,rel,valu,time=FALSE)
 {
-  Sys.setenv(tz="GMT")
+  Sys.setenv(tz="UTC")
   
   if (is.null(variab) | is.null(rel) | is.null(valu)) logger.info("One of your parameters has not been set. This will lead to an error.")
   
