@@ -2,8 +2,9 @@
   "settings": [
 	{
       "id": "variab",
-      "name": "Individual property variable",
-      "description": "Select an individual property by which you want to filter your data. See below the possibility to select another option by 'other'. Note that depending on the variable type only some relation types make sense.",
+      "name": "Animal Properties",
+      "description": "Select an individual property by which you want to filter your data. If you select ‘Other’, please provide the property name below. (Data for animals matching your Filter Preferences and Filter Value (see below) will be retained by this filter, and data for other animals will be excluded. This information is either calculated from the data or provided by the data owner in Movebank as part of the study's reference data. If your results include less data than expected, this can be because the information is not present in the study. To see what information is available in the study, you can download the reference data from Movebank.)
+",
       "defaultValue": null,
       "type": "RADIOBUTTONS",
       "options": [
@@ -17,19 +18,19 @@
         },
 		        {
           "value": "local_identifier",
-          "displayText": "Individual identifier"
+          "displayText": "Individual identifier / Animal ID"
         },
 		        {
           "value": "nick_name",
-          "displayText": "Nick name"
+          "displayText": "Nickname"
         },
 				        {
           "value": "sex",
-          "displayText": "Sex (m,f)"
+          "displayText": "Sex (m, f, u)"
         },
 				        {
           "value": "taxon_canonical_name",
-          "displayText": "Taxon canonical name"
+          "displayText": "Taxon"
         },
 				        {
           "value": "timestamp_start",
@@ -53,27 +54,27 @@
         },
 								        {
           "value": "other",
-          "displayText": "Other property: (name below)"
+          "displayText": "Other property (define below)"
         }
       ]
 	},
 	{
       "id": "other",
       "name": "Other: ",
-      "description": "Insert the name of your individual property in the exact spelling as provided in your data set.",
+      "description": "Insert the name of your individual property in the exact spelling as provided in your data set. If unsure, please run the first App in your workflow and check the Variable Names in the Output Details overview. This option also allows you to include reference data attributes available in Movebank but not yet added to this App. For definitions of Movebank attributes please refer to the Movebank Attribute Dictionary (https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary)",
       "defaultValue": null,
       "type": "STRING"
     },
 	{
       "id": "rel",
-      "name": "Relation of your property",
-      "description": "Select a relation of your variable to the below value. Note that only numeric and timestamp variables allow for relations like '==', '>' or '<'.",
+      "name": "Filter Preference Relation",
+      "description": "Choose how you want to filter the individual property variable you selected. (Note that ‘==’, ‘>’, or ‘<’ can only be used for numeric and timestamp variables.)",
       "defaultValue": null,
       "type": "RADIOBUTTONS",
       "options": [
         {
           "value": "%in%",
-          "displayText": "is one of the following options"
+          "displayText": "is one of the following options (categorical option, e.g. sex (m, f))"
         },
 		        {
           "value": "==",
@@ -85,21 +86,21 @@
         },
 		        {
           "value": "<",
-          "displayText": "< (is smaller than)"
+          "displayText": "< (is less than)"
         }
       ]
 	},
 	{
       "id": "valu",
-      "name": "Value to your relation",
-      "description": "Insert a value/values for your relation. For 'is one of the follwing options' please use commas for separation. If you enter a timestamp, please follow the format 'YYYY-mm-dd HH:MM:SS'.",
+      "name": "Filter Value",
+      "description": "Insert a value(s) for the variable you selected (categorical values must be comma-separated!). If you enter a timestamp, please ensure it is in UTC and follows the format ‘YYYY-mm-dd HH:MM:SS’.",
       "defaultValue": null,
       "type": "STRING"
     },
 	{
       "id": "time",
       "name": "Time variable?",
-      "description": "Please tick if your variable is a timestamp. If so, check again that you have followed the format 'YYYY-mm-dd HH:MM:SS'.",
+      "description": "Please check this box if your selected variable is a timestamp. Please make sure that the timestamp is in UTC and follows the format 'YYYY-mm-dd HH:MM:SS'.",
       "defaultValue": false,
       "type": "CHECKBOX"
     }
