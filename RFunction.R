@@ -48,6 +48,11 @@ rFunction <- function(data,variab,other=NULL,rel,valu,time=FALSE)
     logger.info("You selected id Variable is not available in the data set. Go back and reconfigure the App. Now it is returning NULL, probably leading to error.")
   }
   
+  #force moveStack if only one ID
+  if (is(result,'Move')) {
+    result <- moveStack(result,forceTz="UTC")
+  }
+  
   return(result)
 }
 
