@@ -3,8 +3,7 @@
 	{
       "id": "variab",
       "name": "Animal Properties",
-      "description": "Select an individual property by which you want to filter your data. If you select ‘Other’, please provide the property name below. (Data for animals matching your Filter Preferences and Filter Value (see below) will be retained by this filter, and data for other animals will be excluded. The information of the fixed variables (not 'other') is provided by the data owner in Movebank as part of the study's reference data, so optimally use this App after a Movebank App only. If your results include less data than expected, this can be because the information is not present in the study. To see what information is available in the study, you can download the reference data from Movebank.)
-",
+      "description": "Select an individual property by which you want to filter your data. If you select 'Other', please provide the property name below. (Data for animals matching your Filter Preferences and Filter Value (see below) will be retained by this filter, and data for other animals will be excluded. The information of the fixed variables (not 'other') is provided by the data owner in Movebank as part of the study's reference data, so optimally use this App after a Movebank App. If your results include less data than expected, this can be because the information is not present in the study. To see what information is available in the study, you can download the reference data from Movebank.)",
       "defaultValue": null,
       "type": "RADIOBUTTONS",
       "options": [
@@ -138,7 +137,6 @@
       "firstName": "Kamran",
       "middleInitials": null,
       "lastName": "Safi",
-      "email": ,
       "roles": ["contributor"],
       "orcid": "",
       "affiliation": "Max-Planck-Institute of Animal Behavior",
