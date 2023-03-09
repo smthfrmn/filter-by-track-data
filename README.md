@@ -18,26 +18,26 @@ moveStack in Movebank format
 ### Artefacts
 none
 
-### Parameters 
-`variab`: This is a selected individual parameter according to which the data shall be filtered. If the required parameter is not in this list, 'other' can be chosen en and its name entered below.
+### Settings 
+**Animal Properties (`variab`):** This is a selected individual parameter according to which the data shall be filtered. If the required parameter is not in this list, 'other' can be chosen en and its name entered below.
 
-`other`: Name of the required individual parameter, if for `variab` 'other' has been selected. Take care that this parameter also exists in the ID data of the input data set.
+**Other (`other`):** Name of the required individual parameter, if for `variab` 'other' has been selected. Take care that this parameter also exists in the ID data of the input data set.
 
-`rel`: By this parameter the relation in the required filter has to be selected. The possible values differ by parameter data type, only numeric and timestamps variables can relate by '==', '>' or '<'.
+**Filter Preference Relation (`rel`):** By this parameter the relation in the required filter has to be selected. The possible values differ by parameter data type, only numeric and timestamps variables can relate by '==', '>' or '<'.
 
-`valu`: Value of the relation that the filtered part of the data set has to fullfill. In case of `rel` = 'is one of the following' commas have to be used to separate the possible values. In case of a timestamp parameter please use the timestamp format with year, month, day, hour, minute and second as in the example: '2021-06-23 09:34:00"
+**Filter Value (`valu`):** Value of the relation that the filtered part of the data set has to fullfill. In case of `rel` = 'is one of the following' commas have to be used to separate the possible values. In case of a timestamp parameter please use the timestamp format with year, month, day, hour, minute and second as in the example: '2021-06-23 09:34:00"
 
-`time`: Please tick this parameter if your selected variable is a timestamp type, so that the App can properly work with it.
+**Time variable? (`time`):** Please tick this parameter if your selected variable is a timestamp type, so that the App can properly work with it.
 
 ### Null or error handling:
-**Parameter `variab`:** If none of the options of this checkbox selection is chosen, an error will be returned.
+**Setting `variab`:** If none of the options of this checkbox selection is chosen, an error will be returned.
 
-**Parameter `other`:** If there is no individual variable with the name given here, an error will be returned. This parameter only becomes effective if `variab`='other' has been selected.
+**Setting `other`:** If there is no individual variable with the name given here, an error will be returned. This parameter only becomes effective if `variab`='other' has been selected.
 
-**Parameter `rel`:** If none of the relation options are selected, an error will be returned. It has to be carefully considered that the selected relation fits with the data type of the selected variable. Only numeric and timestamps variables can relate by '==', '>' or '<'.
+**Setting `rel`:** If none of the relation options are selected, an error will be returned. It has to be carefully considered that the selected relation fits with the data type of the selected variable. Only numeric and timestamps variables can relate by '==', '>' or '<'.
 
-**Parameter `valu`:** If there is no value entered, an error will be returned. The data type of the entered value has to fit with the selected variable.
+**Setting `valu`:** If there is no value entered, an error will be returned. The data type of the entered value has to fit with the selected variable.
 
-**Parameter `time`:** If the selected variable is a timestamp and it was not indicated here, the variable will be treated as a string of text and possibly not handled correctly, leading to errors. Similarly if your variable is not a timestamp and it is indicated here. Default is 'false'.
+**Setting `time`:** If the selected variable is a timestamp and it was not indicated here, the variable will be treated as a string of text and possibly not handled correctly, leading to errors. Similarly if your variable is not a timestamp and it is indicated here. Default is 'false'.
 
 **Data:** If none of the individuals in the input data set fullfill the selected relation, a warning is given and a NULL data set is returned. The NULL return value likely produces an error.
