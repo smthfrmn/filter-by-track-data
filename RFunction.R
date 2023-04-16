@@ -7,7 +7,10 @@ rFunction <- function(data,variab,other=NULL,rel,valu,time=FALSE)
   if (is.null(variab) | is.null(rel) | is.null(valu)) logger.info("One of your parameters has not been set. This will lead to an error.")
   
   N <- dim(idData(data))[1]
-  if (variab=="other") variab <- other
+  if (variab=="other") variab <- other else names(idData(data)) <- make.names(names(idData(data)),allow_=FALSE) #if pre-defined variab selected use make names, else keep so that fit with selected "other" from previous App
+  
+  if (variab=="local.identifier" & any(names(idData(data))=="individual.local.identifier")) variab <- "individual.local.identifier"
+  if (variab=="taxon.canonical.name" & any(names(idData(data))=="individual.taxon.canonical.name")) variab <- "individual.taxon.canonical.name"
   
   if (variab %in% names(idData(data)))
   {

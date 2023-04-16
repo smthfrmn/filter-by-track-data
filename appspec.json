@@ -12,15 +12,15 @@
           "displayText": "Comments"
         },
 		        {
-          "value": "exact_date_of_birth",
+          "value": "exact.date.of.birth",
           "displayText": "Exact date of birth (timestamp)"
         },
 		        {
-          "value": "local_identifier",
+          "value": "local.identifier",
           "displayText": "Individual identifier / Animal ID"
         },
 		        {
-          "value": "nick_name",
+          "value": "nick.name",
           "displayText": "Nickname"
         },
 				        {
@@ -28,27 +28,27 @@
           "displayText": "Sex (m, f, u)"
         },
 				        {
-          "value": "taxon_canonical_name",
+          "value": "taxon.canonical.name",
           "displayText": "Taxon"
         },
 				        {
-          "value": "timestamp_start",
+          "value": "timestamp.start",
           "displayText": "Time of track start (timestamp)"
         },
 						        {
-          "value": "timestamp_end",
+          "value": "timestamp.end",
           "displayText": "Time of track end (timestamp)"
         },
 						        {
-          "value": "number_of_events",
+          "value": "number.of.events",
           "displayText": "Number of locations/events (numeric)"
         },
 						        {
-          "value": "number_of_deployments",
+          "value": "number.of.deployments",
           "displayText": "Number of deployments to this animal (numeric)"
         },
 								        {
-          "value": "sensor_type_ids",
+          "value": "sensor.type",
           "displayText": "Available sensor types"
         },
 								        {

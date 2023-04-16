@@ -2,7 +2,7 @@ library(jsonlite)
 source("logger.R")
 source("RFunction.R")
 
-inputFileName = "Curlew_SpringMig2021.rds" #important to set to NULL for movebank-download
+inputFileName = "Workflow_Instance_001__Movebank__2023-04-16_08-17-39.rds" #important to set to NULL for movebank-download
 outputFileName = "output.rds"
 
 args <- list()
@@ -17,9 +17,11 @@ args <- list()
 #    args[["password"]] = "any-password"
 
 # Add your arguments of your r function here
-args[["variab"]] = "timestamp_start"
-args[["rel"]] = ">"
-args[["valu"]] = "2020-05-12 12:00:00"
+args[["variab"]] = "sensor.type"
+args["other"] = "number.of.events"
+args[["rel"]] = "%in%"
+args[["valu"]] = "GPS"
+args[["time"]] = FALSE
 
 #################################################################
 #################################################################
