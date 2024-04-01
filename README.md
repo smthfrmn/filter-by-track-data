@@ -1,43 +1,39 @@
-# Filter by Animal Data
+# Name of App *(Give your app a short and informative title. Please adhere to our convention of Title Case without hyphens (e.g. My New App))*
+
 MoveApps
 
-Github repository: *github.com/movestore/Filter-by-IdData*
+Github repository: *github.com/yourAccount/Name-of-App* *(the link to the repository where the code of the app can be found must be provided)*
 
 ## Description
-Filters your data set by one property of the individual animals.
+*Enter here the short description of the App that might also be used when filling out the description when submitting the App to Moveapps. This text is directly presented to Users that look through the list of Apps when compiling Workflows.*
 
 ## Documentation
-This App filters the input data set to all locations of the individual animals with user-defined properties. So, for example, to only retain the data of all females or tracks ending before a certain timestamp. The list of suggested properties is based on Movebank individual data, but also 'other' properties can be entered. They have to be part of the input MoveStack.
+*Enter here a detailed description of your App. What is it intended to be used for. Which steps of analyses are performed and how. Please be explicit about any detail that is important for use and understanding of the App and its outcomes.*
 
 ### Input data
-moveStack in Movebank format
+*Indicate which type of input data the App requires. Currently only R objects of class `MoveStack` can be used. This will be extend in the future.*
+
+*Example*: MoveStack in Movebank format
 
 ### Output data
-moveStack in Movebank format
+*Indicate which type of output data the App produces to be passed on to subsequent apps. Currently only R objects of class `MoveStack` can be used. This will be extend in the future. In case the App does not pass on any data (e.g. a shiny visualization app), it can be also indicated here that no output is produced to be used in subsequent apps.*
+
+*Example:* MoveStack in Movebank format
 
 ### Artefacts
-none
+*If the App creates artefacts (e.g. csv, pdf, jpeg, shapefiles, etc), please list them here and describe each.*
+
+*Example:* `rest_overview.csv`: csv-file with Table of all rest site properties
 
 ### Settings 
-**Animal Properties (`variab`):** This is a selected individual parameter according to which the data shall be filtered. If the required parameter is not in this list, 'other' can be chosen en and its name entered below.
+*Please list and define all settings/parameters that the App requires to be set by the App user, if necessary including their unit.*
 
-**Other (`other`):** Name of the required individual parameter, if for `variab` 'other' has been selected. Take care that this parameter also exists in the ID data of the input data set.
+*Example:* `Radius of resting site` (radius): Defined radius the animal has to stay in for a given duration of time for it to be considered resting site. Unit: `metres`.
 
-**Filter Preference Relation (`rel`):** By this parameter the relation in the required filter has to be selected. The possible values differ by parameter data type, only numeric and timestamps variables can relate by '==', '>' or '<'.
+### Most common errors
+*Please describe shortly what most common errors of the App can be, how they occur and best ways of solving them.*
 
-**Filter Value (`valu`):** Value of the relation that the filtered part of the data set has to fullfill. In case of `rel` = 'is one of the following' commas have to be used to separate the possible values. In case of a timestamp parameter please use the timestamp format with year, month, day, hour, minute and second as in the example: '2021-06-23 09:34:00"
+### Null or error handling
+*Please indicate for each setting as well as the input data which behaviour the App is supposed to show in case of errors or NULL values/input. Please also add notes of possible errors that can happen if settings/parameters are improperly set and any other important information that you find the user should be aware of.*
 
-**Time variable? (`time`):** Please tick this parameter if your selected variable is a timestamp type, so that the App can properly work with it.
-
-### Null or error handling:
-**Setting `variab`:** If none of the options of this checkbox selection is chosen, an error will be returned.
-
-**Setting `other`:** If there is no individual variable with the name given here, an error will be returned. This parameter only becomes effective if `variab`='other' has been selected.
-
-**Setting `rel`:** If none of the relation options are selected, an error will be returned. It has to be carefully considered that the selected relation fits with the data type of the selected variable. Only numeric and timestamps variables can relate by '==', '>' or '<'.
-
-**Setting `valu`:** If there is no value entered, an error will be returned. The data type of the entered value has to fit with the selected variable.
-
-**Setting `time`:** If the selected variable is a timestamp and it was not indicated here, the variable will be treated as a string of text and possibly not handled correctly, leading to errors. Similarly if your variable is not a timestamp and it is indicated here. Default is 'false'.
-
-**Data:** If none of the individuals in the input data set fullfill the selected relation, a warning is given and a NULL data set is returned. The NULL return value likely produces an error.
+*Example:* **Setting `radius`:** If no radius AND no duration are given, the input data set is returned with a warning. If no radius is given (NULL), but a duration is defined then a default radius of 1000m = 1km is set. 

@@ -1,155 +1,77 @@
 {
+  "version": "1.2",
   "settings": [
-	{
-      "id": "variab",
-      "name": "Animal Properties",
-      "description": "Select an individual property by which you want to filter your data. If you select 'Other', please provide the property name below. (Data for animals matching your Filter Preferences and Filter Value (see below) will be retained by this filter, and data for other animals will be excluded. The information of the fixed variables (not 'other') is provided by the data owner in Movebank as part of the study's reference data, so optimally use this App after a Movebank App. If your results include less data than expected, this can be because the information is not present in the study. To see what information is available in the study, you can download the reference data from Movebank.)",
-      "defaultValue": null,
-      "type": "RADIOBUTTONS",
-      "options": [
-        {
-          "value": "comments",
-          "displayText": "Comments"
-        },
-		        {
-          "value": "exact.date.of.birth",
-          "displayText": "Exact date of birth (timestamp)"
-        },
-		        {
-          "value": "local.identifier",
-          "displayText": "Individual identifier / Animal ID"
-        },
-		        {
-          "value": "nick.name",
-          "displayText": "Nickname"
-        },
-				        {
-          "value": "sex",
-          "displayText": "Sex (m, f, u)"
-        },
-				        {
-          "value": "taxon.canonical.name",
-          "displayText": "Taxon"
-        },
-				        {
-          "value": "timestamp.start",
-          "displayText": "Time of track start (timestamp)"
-        },
-						        {
-          "value": "timestamp.end",
-          "displayText": "Time of track end (timestamp)"
-        },
-						        {
-          "value": "number.of.events",
-          "displayText": "Number of locations/events (numeric)"
-        },
-						        {
-          "value": "number.of.deployments",
-          "displayText": "Number of deployments to this animal (numeric)"
-        },
-								        {
-          "value": "sensor.type",
-          "displayText": "Available sensor types"
-        },
-								        {
-          "value": "other",
-          "displayText": "Other property (define below)"
-        }
-      ]
-	},
-	{
-      "id": "other",
-      "name": "Other: ",
-      "description": "Insert the name of your individual property in the exact spelling as provided in your data set. If unsure, please run the first App in your workflow and check the Variable Names in the Output Details overview. This option also allows you to include reference data attributes available in Movebank but not yet added to this App. For definitions of Movebank attributes please refer to the Movebank Attribute Dictionary (https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary)",
-      "defaultValue": null,
+    {
+      "id": "sdk",
+      "name": "The name of the MoveApps SDK",
+      "description": "Showcase requesting a string input from the users of your app.",
+      "defaultValue": "MoveApps SDK",
       "type": "STRING"
     },
-	{
-      "id": "rel",
-      "name": "Filter Preference Relation",
-      "description": "Choose how you want to filter the individual property variable you selected. (Note that ‘==’, ‘>’, or ‘<’ can only be used for numeric and timestamp variables.)",
-      "defaultValue": null,
-      "type": "RADIOBUTTONS",
-      "options": [
-        {
-          "value": "%in%",
-          "displayText": "is one of the following options (categorical option, e.g. sex (m, f))"
-        },
-		        {
-          "value": "==",
-          "displayText": "== (equals)"
-        },
-		        {
-          "value": ">",
-          "displayText": "> (is greater than)"
-        },
-		        {
-          "value": "<",
-          "displayText": "< (is less than)"
-        }
-      ]
-	},
-	{
-      "id": "valu",
-      "name": "Filter Value",
-      "description": "Insert a value(s) for the variable you selected (categorical values must be comma-separated!). If you enter a timestamp, please ensure it is in UTC and follows the format ‘YYYY-mm-dd HH:MM:SS’.",
-      "defaultValue": null,
-      "type": "STRING"
+    {
+      "id": "year",
+      "name": "The year",
+      "description": "Insert description for the year setting setting",
+      "defaultValue": 2022,
+      "type": "INTEGER"
     },
-	{
-      "id": "time",
-      "name": "Time variable?",
-      "description": "Please check this box if your selected variable is a timestamp. Please make sure that the timestamp is in UTC and follows the format 'YYYY-mm-dd HH:MM:SS'.",
-      "defaultValue": false,
-      "type": "CHECKBOX"
+    {
+      "id": "auxiliary-file-a",
+      "name": "Personalization",
+      "description": "You can personalize the app by providing a file",
+      "type": "USER_FILE"
     }
   ],
   "dependencies": {
     "R": [
       {
-        "name": "move"
+        "name": "lubridate"
+      },
+      {
+        "name": "move2"
       }
     ]
   },
+  "providedAppFiles": [
+    {
+      "settingId": "auxiliary-file-a",
+      "from": "data/auxiliary/user-files/provided-app-files/auxiliary-file-a/sample.txt"
+    }
+  ],
   "license": {
     "key": "MIT"
   },
   "language": "eng",
   "keywords": [
-	"filter",
-    "individual properties",
-	"individual data",
-	"reference data",
-	  "Movebank"
+    "example",
+    "template"
   ],
   "people": [
     {
-      "firstName": "Andrea",
+      "firstName": "Charles",
       "middleInitials": null,
-      "lastName": "Kölzsch",
-      "email": "akoelzsch@ab.mpg.de",
-      "roles": ["compiler","author","creator"],
-      "orcid": "0000-0003-0193-1563",
-      "affiliation": "Max-Planck-Institute of Animal Behavior",
-      "affiliationRor": "https://ror.org/026stee22"
-    },
-	{
-      "firstName": "Kamran",
-      "middleInitials": null,
-      "lastName": "Safi",
-      "roles": ["contributor"],
-      "orcid": "",
-      "affiliation": "Max-Planck-Institute of Animal Behavior",
-      "affiliationRor": "https://ror.org/026stee22"
+      "lastName": "Darwin",
+      "email": "creator@example.com",
+      "roles": [
+        "author",
+        "creator"
+      ],
+      "orcid": null,
+      "affiliation": null,
+      "affiliationRor": null
     }
   ],
   "funding": [
     {
-	"name": "Knobloch Family Foundation",
-	"comment": "grant for Migration Mapper (MPIAB)"
-	}
+      "name": "funder name",
+      "comment": "grant for App"
+    }
   ],
-  "documentation" : {
-    "url": "https://github.com/movestore/Filter-by-IdData/blob/main/README.md"
-  }
+  "references": [
+    {
+      "type": "IsDescribedBy",
+      "note": "Darwin, C. 1900. The creation. Journal XY. 1-2",
+      "url": "https://anylink.xyz"
+    }
+  ]
 }

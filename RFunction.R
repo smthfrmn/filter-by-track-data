@@ -1,71 +1,68 @@
-library('move')
+library("move2")
+library("lubridate")
+library("stringr")
 
-rFunction <- function(data,variab,other=NULL,rel,valu,time=FALSE)
-{
-  Sys.setenv(tz="UTC")
+
+rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
   
-  if (is.null(variab) | is.null(rel) | is.null(valu)) logger.info("One of your parameters has not been set. This will lead to an error.")
-  
-  N <- dim(idData(data))[1]
-  if (variab=="other") variab <- other else names(idData(data)) <- make.names(names(idData(data)),allow_=FALSE) #if pre-defined variab selected use make names, else keep so that fit with selected "other" from previous App
-  
-  if (variab=="local.identifier" & any(names(idData(data))=="individual.local.identifier")) variab <- "individual.local.identifier"
-  if (variab=="taxon.canonical.name" & any(names(idData(data))=="individual.taxon.canonical.name")) variab <- "individual.taxon.canonical.name"
-  
-  if (variab %in% names(idData(data)))
-  {
-    if (rel=="%in%") #works for numeric or character values
-    {
-      valus <- strsplit(as.character(valu),",")[[1]]
-      
-      if (any(idData(data)[,variab] %in% valus))
-      {
-        data.sub <- data[[idData(data)[,variab] %in% valus]] ## help by Kami to subset moveStack directly
-        result <- data.sub
-        logger.info(paste(dim(idData(data.sub))[1]," (of",N,") individuals fulfill your required property:",variab," ",rel," [",valu,"]."))
-        logger.info(paste(length(data.sub),"locations of your data (containing originally",length(data),"locations) have been selected."))
-      } else 
-      {
-        result <- NULL
-        logger.info("None of your data fulfill the required property. Go back and reconfigure the App. Now it is returning NULL, probably leading to error.")
-      }  
-    } else
-    {
-      if (time==TRUE) fullrel <- eval(parse(text=paste0("as.POSIXct(idData(data)$",variab,") ",rel," as.POSIXct('",valu,"')"))) else fullrel <- eval(parse(text=paste0("idData(data)$",variab," ",rel," ",valu)))
-      if (any(fullrel))
-      {
-        data.sub <- data[[fullrel]]
-        result <- data.sub
-        logger.info(paste(dim(idData(data.sub))[1]," (of",N,") individuals fulfill your required property:",variab," ",rel," [",valu,"]."))
-        logger.info(paste(length(data.sub),"locations of your data (containing originally",length(data),"locations) have been selected."))
-      } else 
-      {
-        result <- NULL
-        logger.info("None of your data fulfill the required property. Go back and reconfigure the App. Now it is returning NULL, probably leading to error.")
-        
-      }
-    }
-  } else
-  {
-    result <- NULL
-    logger.info("You selected id Variable is not available in the data set. Go back and reconfigure the App. Now it is returning NULL, probably leading to error.")
+  result <- NULL
+  if (is.null(variab) | is.null(rel) | is.null(valu)) {
+    logger.error("One of your parameters has not been set. This will lead to an error.")
+    return(result)
   }
+
+  track_attribute_fields <- names(move2::mt_track_data(data))
+
+  # if pre-defined variab selected update attribute names (and replace "_" with ".")
+  # else keep with user-provided other
+  # if (variab == "other") {
+  #   variab <- other
+  # } else {
+  #   names(move2::mt_track_data(data)) <- make.names(track_attribute_fields, allow_ = FALSE)
+  # }
+
+  # standardize specific fields from front-end
+  if (variab == "local_identifier" & 
+      "individual_local_identifier" %in% track_attribute_fields
+      ) variab <- "individual_local_identifier"
   
-  #force moveStack if only one ID
-  if (is(result,'Move')) {
-    result <- moveStack(result,forceTz="UTC")
+  if (variab == "taxon_canonical_name" &
+      "individual_taxon_canonical_name" %in% track_attribute_fields
+      ) variab <- "individual_taxon_canonical_name"
+
+  if (!variab %in% track_attribute_fields) {
+    logger.error("You selected a field to filter by that is not available in the your reference data set. Go back to the app settings and select a valid field.")
+    return(result)
   }
+
   
+  # begin actual filtering
+  value_str <- valu
+
+  if (rel == "%in%") {
+    value_str <- strsplit(as.character(valu), ",")[[1]]
+  }
+
+  if (isTRUE(time)) {
+    filter_str <- stringr::str_interp("as.POSIXct(${variab}) ${rel} as.POSIXct(${value_str})")
+  } else {
+    filter_str <- stringr::str_interp("${variab} ${rel} ${value_str}")
+  }
+
+  result <- data |>
+    move2::filter_track_data(
+      !!rlang::parse_expr(filter_str)
+    )
+
+  total_tracks <- nrow(data)
+  if (nrow(result) != 0) {
+    logger.info(
+      stringr::str_interp("Filtered ${nrow(result)} of ${nrow(data)} rows, using parameters: field '${variab}', operator '${rel}', and value '${valu}'.")
+    )
+  } else {
+    logger.info("Filtering using parameters field '${variab}', operator '${rel}', and value '${valu}' returned no data.")
+  }
+
+
   return(result)
 }
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
