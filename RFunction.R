@@ -3,10 +3,14 @@ library("lubridate")
 library("stringr")
 
 
+# TODO:
+# - Add validation for <,> for factors
 rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
   
+  browser()
   result <- NULL
-  if (is.null(variab) | is.null(rel) | is.null(valu)) {
+  valu <- trimws(valu)
+  if (is.null(variab) | is.null(rel) | (is.null(valu) | valu == "")) {
     logger.error("One of your parameters has not been set. This will lead to an error.")
     return(result)
   }
@@ -44,7 +48,7 @@ rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
   }
 
   if (isTRUE(time)) {
-    filter_str <- stringr::str_interp("as.POSIXct(${variab}) ${rel} as.POSIXct(${value_str})")
+    filter_str <- stringr::str_interp("as.POSIXct(${variab}, tz = 'UTC') ${rel} as.POSIXct('${value_str}', tz = 'UTC')")
   } else {
     filter_str <- stringr::str_interp("${variab} ${rel} ${value_str}")
   }
