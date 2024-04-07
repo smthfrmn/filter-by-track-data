@@ -1,17 +1,20 @@
 library("move2")
 library("lubridate")
 library("stringr")
+library("rapport")
 
 
 # TODO:
 # - Add validation for <,> for factors
 rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
-  
-  browser()
+
   result <- NULL
   valu <- trimws(valu)
-  if (is.null(variab) | is.null(rel) | (is.null(valu) | valu == "")) {
-    logger.error("One of your parameters has not been set. This will lead to an error.")
+  variab <- trimws(variab)
+  
+  empty_settings <- (is.null(variab) | variab == "") | is.null(rel) | (is.null(valu) | valu == "")
+  if (empty_settings) {
+    logger.error("One of your settings is empty, please check that you have filled out all required settings.")
     return(result)
   }
 
@@ -26,20 +29,24 @@ rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
   # }
 
   # standardize specific fields from front-end
-  if (variab == "local_identifier" & 
-      "individual_local_identifier" %in% track_attribute_fields
-      ) variab <- "individual_local_identifier"
-  
+  if (variab == "local_identifier" &
+    "individual_local_identifier" %in% track_attribute_fields
+  ) {
+    variab <- "individual_local_identifier"
+  }
+
   if (variab == "taxon_canonical_name" &
-      "individual_taxon_canonical_name" %in% track_attribute_fields
-      ) variab <- "individual_taxon_canonical_name"
+    "individual_taxon_canonical_name" %in% track_attribute_fields
+  ) {
+    variab <- "individual_taxon_canonical_name"
+  }
 
   if (!variab %in% track_attribute_fields) {
-    logger.error("You selected a field to filter by that is not available in the your reference data set. Go back to the app settings and select a valid field.")
+    logger.error("You selected a field to filter by that is not available in the your track attributes data. Go back to the app settings and select a valid field.")
     return(result)
   }
 
-  
+
   # begin actual filtering
   value_str <- valu
 
@@ -53,10 +60,30 @@ rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
     filter_str <- stringr::str_interp("${variab} ${rel} ${value_str}")
   }
 
-  result <- data |>
-    move2::filter_track_data(
-      !!rlang::parse_expr(filter_str)
-    )
+  result <- tryCatch(
+    {
+      result <- data |>
+        move2::filter_track_data(
+          !!rlang::parse_expr(filter_str)
+        )
+    },
+    error = function(cond) {
+      logger.error(
+        stringr::str_interp("Error filtering data, check that your settings are valid: ${conditionMessage(cond)}")
+      )
+      return(NULL)
+    },
+    warning = function(cond) {
+      logger.warn(
+        stringr::str_interp("Warning encountered while filtering data, result may be incorrect: ${conditionMessage(cond)}")
+      )
+    }
+  )
+
+  if (is.null(result)) {
+    # if encountered error during filter
+    return(result)
+  }
 
   total_tracks <- nrow(data)
   if (nrow(result) != 0) {
@@ -64,7 +91,9 @@ rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
       stringr::str_interp("Filtered ${nrow(result)} of ${nrow(data)} rows, using parameters: field '${variab}', operator '${rel}', and value '${valu}'.")
     )
   } else {
-    logger.info("Filtering using parameters field '${variab}', operator '${rel}', and value '${valu}' returned no data.")
+    logger.info(
+      stringr::str_interp("Filtering using parameters field '${variab}', operator '${rel}', and value '${valu}' returned no data.")
+    )
   }
 
 
