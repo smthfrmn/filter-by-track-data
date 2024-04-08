@@ -1,25 +1,106 @@
 {
-  "version": "1.2",
+  "version": "1.1",
   "settings": [
     {
-      "id": "sdk",
-      "name": "The name of the MoveApps SDK",
-      "description": "Showcase requesting a string input from the users of your app.",
-      "defaultValue": "MoveApps SDK",
+      "id": "variab",
+      "name": "Track Data Field",
+      "description": "The track data field by which you want to filter your tracks. We've provided options for common fields users want to filter by and 'Other' for any other fields available in the track data. If you select 'Other', please provide the field name below. Tracks matching your filter settings (Track Data Field and Filter Value) will be retained. The track data is populated from your data sets' reference and study data in Movebank, so optimally use this App after a Movebank App. If your results include less data than expected, this can be because the fields are not populated in your data set. To see what fields are available in your track data, download the file output by the Movebank App. For a list of all potential track data fields, please refer to the Movebank Attribute Dictionary (https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary).",
+      "defaultValue": "individual_local_identifier",
+      "type": "DROPDOWN",
+      "options": [
+        {
+          "value": "individual_local_identifier",
+          "displayText": "Animal ID"
+        },
+        {
+          "value": "sex",
+          "displayText": "Animal sex"
+        },
+        {
+          "value": "nick_name",
+          "displayText": "Animal nickname"
+        },
+        {
+          "value": "animal_group_id",
+          "displayText": "Animal group ID (e.g., herd, pack, nest, family group)."
+        },
+        {
+          "value": "individual_number_of_deployments",
+          "displayText": "Number of deployments per animal (numeric)"
+        },
+        {
+          "value": "tag_id",
+          "displayText": "Tag ID"
+        },
+        {
+          "value": "deployment_id",
+          "displayText": "Deployment Identifier"
+        },
+        {
+          "value": "sensor_type_ids",
+          "displayText": "Sensor type"
+        },
+        {
+          "value": "other",
+          "displayText": "Other property (define below)"
+        }
+      ]
+    },
+    {
+      "id": "other",
+      "name": "Other: ",
+      "description": "The name of the track data field on which you want to filter. Make sure the name you provide is an exact match to the field in your data set. For example, if the field you want to filter on is 'capture_location', type 'capture_location' and not 'CaptureLocation' or 'capturelocation'.",
+      "defaultValue": null,
       "type": "STRING"
     },
     {
-      "id": "year",
-      "name": "The year",
-      "description": "Insert description for the year setting setting",
-      "defaultValue": 2022,
-      "type": "INTEGER"
+      "id": "rel",
+      "name": "Filter Relation",
+      "description": "Choose how you want to filter by track data field you selected. (Note that ‘==’, ‘>’, or ‘<’ can only be used predictably for numeric and timestamp variables.)",
+      "defaultValue": "==",
+      "type": "DROPDOWN",
+      "options": [
+        {
+          "value": "%in%",
+          "displayText": "is one of the following options (categorical option, e.g. sex (m, f))"
+        },
+        {
+          "value": "==",
+          "displayText": "== (equals)"
+        },
+        {
+          "value": ">",
+          "displayText": "> (is greater than)"
+        },
+        {
+          "value": "<",
+          "displayText": "< (is less than)"
+        }
+      ]
     },
     {
-      "id": "auxiliary-file-a",
-      "name": "Personalization",
-      "description": "You can personalize the app by providing a file",
-      "type": "USER_FILE"
+      "id": "valu",
+      "name": "Filter Value",
+      "description": "Insert a value(s) for the track data field you selected. If you selected 'is one of the following options' above, insert comma-separated values here (e.g., m,f). If you enter a timestamp, please ensure it is in UTC and follows the format ‘YYYY-mm-dd HH:MM:SS’ (e.g., 1992-10-24 or 1992-10-24 10:23:14).",
+      "defaultValue": null,
+      "type": "STRING"
+    },
+    {
+      "id": "time",
+      "name": "Time field?",
+      "description": "Please selet 'Yes' if your filtering field is a timestamp.",
+      "defaultValue": false,
+      "type": "RADIOBUTTONS",
+      "options": [
+        {
+          "value": true,
+          "displayText": "Yes"
+        },
+        {
+          "value": false,
+          "displayText": "No"
+        }
+      ]
     }
   ],
   "dependencies": {
@@ -29,49 +110,54 @@
       },
       {
         "name": "move2"
+      },
+      {
+        "name": "stringr"
+      },
+      {
+        "name": "rapportools"
       }
     ]
   },
-  "providedAppFiles": [
-    {
-      "settingId": "auxiliary-file-a",
-      "from": "data/auxiliary/user-files/provided-app-files/auxiliary-file-a/sample.txt"
-    }
-  ],
   "license": {
     "key": "MIT"
   },
   "language": "eng",
   "keywords": [
-    "example",
-    "template"
+    "filter",
+    "track data",
+    "track attribute",
+    "individual data",
+    "reference data",
+    "Movebank"
   ],
   "people": [
     {
-      "firstName": "Charles",
+      "firstName": "Smith",
       "middleInitials": null,
-      "lastName": "Darwin",
-      "email": "creator@example.com",
+      "lastName": "Freeman",
+      "email": "smithifreeman@gmail.com",
       "roles": [
         "author",
         "creator"
       ],
-      "orcid": null,
-      "affiliation": null,
-      "affiliationRor": null
-    }
-  ],
-  "funding": [
+      "orcid": "0009-0008-0430-653X",
+      "affiliation": "University of Minnesota",
+      "affiliationRor": "https://ror.org/03grvy078"
+    },
     {
-      "name": "funder name",
-      "comment": "grant for App"
-    }
-  ],
-  "references": [
-    {
-      "type": "IsDescribedBy",
-      "note": "Darwin, C. 1900. The creation. Journal XY. 1-2",
-      "url": "https://anylink.xyz"
+      "firstName": "Andrea",
+      "middleInitials": null,
+      "lastName": "Kölzsch",
+      "email": "akoelzsch@ab.mpg.de",
+      "roles": [
+        "compiler",
+        "author",
+        "creator"
+      ],
+      "orcid": "0000-0003-0193-1563",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
     }
   ]
 }

@@ -1,7 +1,8 @@
 test_data <- test_data("input3_move2loc_LatLon.rds") |>
   mutate_track_data(
     sex = c("f", "f", "f", "u", "m"),
-    test_date_str = format(deploy_off_timestamp)
+    test_date_str = format(deploy_off_timestamp),
+    study_number_of_deployments = c(5, 5, 5, 5, 3)
   )
 
 
@@ -92,6 +93,27 @@ test_that("filter date convert test_date_str <", {
 })
 
 
+test_that("filter 'Other' non-integer works", {
+  actual <- rFunction(
+    data = test_data, variab = "other",
+    other = "study_number_of_deployments",
+    rel = "==", valu = '5'
+  )
+  expected_count <- 937
+  expect_equal(nrow(actual), expected_count)
+})
+
+
+test_that("filter 'Other' integer works", {
+  actual <- rFunction(
+    data = test_data, variab = "other",
+    other = "study_number_of_deployments",
+    rel = "==", valu = 5
+  )
+  expected_count <- 937
+  expect_equal(nrow(actual), expected_count)
+})
+
 
 test_that("error filter date non-date column", {
   actual <- rFunction(
@@ -128,6 +150,24 @@ test_that("error unknown variab", {
   )
   expect_null(actual)
 })
+
+
+test_that("error 'other' not set", {
+  actual <- rFunction(
+    data = test_data, variab = "other", other = NULL,
+    rel = "<", valu = "2006-01-01", time = TRUE
+  )
+  expect_null(actual)
+})
+
+
+# test_that("error using > for non-numeric field", {
+#   actual <- rFunction(
+#     data = test_data, variab = "other", other = "death_comments",
+#     rel = "<", valu = "2006-01-01", time = TRUE
+#   ) 
+#   expect_null(actual)
+# })
 
 
 test_that("filter by multiple strings", {

@@ -1,52 +1,28 @@
 library("move2")
 library("lubridate")
 library("stringr")
-library("rapport")
+library("rapportools")
 
-
-# TODO:
-# - Add validation for <,> for factors
 rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
 
   result <- NULL
+  variab <- if (variab != 'other') trimws(variab) else trimws(other)
   valu <- trimws(valu)
-  variab <- trimws(variab)
   
-  empty_settings <- (is.null(variab) | variab == "") | is.null(rel) | (is.null(valu) | valu == "")
+  # validation of input settings
+  empty_settings <- rapportools::is.empty(variab) | rapportools::is.empty(rel) | rapportools::is.empty(valu)
   if (empty_settings) {
-    logger.error("One of your settings is empty, please check that you have filled out all required settings.")
+    logger.error("One of your required settings is empty, please check that you have filled out all required settings.")
     return(result)
   }
-
+  
   track_attribute_fields <- names(move2::mt_track_data(data))
-
-  # if pre-defined variab selected update attribute names (and replace "_" with ".")
-  # else keep with user-provided other
-  # if (variab == "other") {
-  #   variab <- other
-  # } else {
-  #   names(move2::mt_track_data(data)) <- make.names(track_attribute_fields, allow_ = FALSE)
-  # }
-
-  # standardize specific fields from front-end
-  if (variab == "local_identifier" &
-    "individual_local_identifier" %in% track_attribute_fields
-  ) {
-    variab <- "individual_local_identifier"
-  }
-
-  if (variab == "taxon_canonical_name" &
-    "individual_taxon_canonical_name" %in% track_attribute_fields
-  ) {
-    variab <- "individual_taxon_canonical_name"
-  }
 
   if (!variab %in% track_attribute_fields) {
     logger.error("You selected a field to filter by that is not available in the your track attributes data. Go back to the app settings and select a valid field.")
     return(result)
   }
-
-
+  
   # begin actual filtering
   value_str <- valu
 
@@ -71,7 +47,6 @@ rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
       logger.error(
         stringr::str_interp("Error filtering data, check that your settings are valid: ${conditionMessage(cond)}")
       )
-      return(NULL)
     },
     warning = function(cond) {
       logger.warn(
