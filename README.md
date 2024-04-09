@@ -23,9 +23,9 @@ none
 
 **Other (`other`):** Name of the required individual parameter, if for `variab` 'other' has been selected. The 'Other' field must exist in the track data, app will log error and return a null result if the field is not present in the track data.
 
-**Filter Relation (`rel`):** By this parameter the relation in the required filter has to be selected. The possible values differ by parameter data type, only numeric and timestamp fields can relate by '>' or '<' predictably.
+**Filter Relation (`rel`):** By this parameter the relation in the required filter has to be selected. The possible values differ by parameter data type.
 
-**Filter Value (`valu`):** Value of the relation that the filtered part of the data set has to fulfill. In case of `rel` = 'is one of the following' commas have to be used to separate the possible values. In case of a timestamp parameter, please use the timestamp format with year, month, day, hour, minute and second as in the example: '2021-06-23 09:34:00'." [TODO]
+**Filter Value (`valu`):** Value of the relation that the filtered part of the data set has to fulfill. In case of `rel` = 'is one of the following' commas have to be used to separate the possible values. In case of a timestamp parameter, please use the timestamp format with year, month, day, hour, minute and second as in the example: '2021-06-23 09:34:00'."
 
 **Time field? (`time`):** Boolean indicating whether or not the filter field is a timestamp.  
 
@@ -34,7 +34,7 @@ none
 
 **Setting `other`:** If `variab` is 'other' and this value is null or an empty string, an error will be logged and a null result will be returned.
 
-**Setting `rel`:** If none of the relation options are selected, an error will be logged and a null result will be returned. It has to be carefully considered that the selected relation fits with the data type of the selected variable. Only numeric and timestamps variables can relate by '==', '>' or '<', filtering will log a warning and most likely return an empty or null data set if users attempt to filter with incorrect data types.
+**Setting `rel`:** If none of the relation options are selected, an error will be logged and a null result will be returned. Keep in mind that when using ">" or "<" for character/factor data types, R will filter based on alphabetical order and that results may be unexpected.
 
 **Setting `valu`:** If this value is null or an empty string, an error will be logged and a null result will be returned. The data type of the entered value has to fit with the selected variable.
 

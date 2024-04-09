@@ -5,48 +5,50 @@ library("rapportools")
 
 rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
   result <- NULL
+  
+  # validate input settings
   variab <- if (variab != "other") trimws(variab) else trimws(other)
   valu <- trimws(valu)
 
-  # validation of input settings
   empty_settings <- rapportools::is.empty(variab) | rapportools::is.empty(rel) | rapportools::is.empty(valu)
   if (empty_settings) {
     logger.error("One of your required settings is empty, please check that you have filled out all required settings.")
     return(result)
   }
 
+  if (rel == "contains" & isTRUE(time)) {
+    logger.error("Relation 'contains' is not supported for time fields, please pick a different relation to filter by.")
+    return(result)
+  }
+  
   track_attribute_fields <- names(move2::mt_track_data(data))
 
   if (!variab %in% track_attribute_fields) {
-    logger.error("You selected a field to filter by that is not available in the your track attributes data. Go back to the app settings and select a valid field.")
+    logger.error("You selected a field to filter by that is not available in your track attributes data. Go back to the app settings and select a valid field.")
     return(result)
   }
 
   # begin actual filtering
-  value_str <- valu
-  variab_str <- variab
-
-  if (rel == "%in%") {
-    value_str <- strsplit(as.character(valu), ",")[[1]]
-  }
-
   
-  if (isTRUE(time)) {
-    variab_str <- stringr::str_interp("as.POSIXct(${variab}, tz = 'UTC')")
-    if (rel == "%in%") {
-      value_str <- stringr::str_interp("as.POSIXct(${value_str}, tz = 'UTC')")
-    } else {
-      value_str <- stringr::str_interp("as.POSIXct('${value_str}', tz = 'UTC')")
-    }
-    filter_str <- stringr::str_interp("${variab_str} ${rel} ${value_str}")
+  # handle vector versus string value
+  value_split <- if(rel == "%in%" | rel == "contains") strsplit(as.character(valu), ",")[[1]] else str_interp("'${valu}'")
+  
+  # handle value if time
+  value_str <- if(isTRUE(time)) stringr::str_interp("as.POSIXct(${value_split}, tz = 'UTC')") else value_split
+  
+  # handle variab if time
+  variab_str <- if(isTRUE(time)) stringr::str_interp("as.POSIXct(${variab}, tz = 'UTC')") else variab
+
+  if (rel == "contains") {
+    filter_str <- stringr::str_interp(
+      "stringr::str_detect(${variab_str}, '${paste(value_str, collapse = '|')}')")
   } else {
-    if (rel == "%in%") {
-      filter_str <- stringr::str_interp("${variab_str} %in% ${value_str}")
-    } else {
-      filter_str <- stringr::str_interp("${variab_str} ${rel} '${value_str}'")
-    }
+    filter_str <- stringr::str_interp("${variab_str} ${rel} ${value_str}")
   }
 
+  logger.debug(
+    stringr::str_interp("Filtering with query: ${filter_str}")
+  )
 
   result <- tryCatch(
     {

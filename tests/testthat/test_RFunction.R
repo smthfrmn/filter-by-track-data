@@ -4,8 +4,10 @@ test_data <- test_data("input3_move2loc_LatLon.rds") |>
   mutate_track_data(
     sex = c("f", "f", "f", "u", "m"),
     test_date_str = format(deploy_off_timestamp),
-    study_number_of_deployments = c(5, 5, 5, 5, 3)
+    study_number_of_deployments = c(5, 5, 5, 5, 3),
+    nickname = c("dog2", "dog3", "cat1", "cat2", "cat3")
   )
+
 
 test_that("filter number tag_id ==", {
   actual <- rFunction(data = test_data, variab = "tag_id", rel = "==", valu = "1898887")
@@ -72,6 +74,27 @@ test_that("filter date deploy_off_timestamp %in%", {
   expected_count <- 2534
   expect_equal(nrow(actual), expected_count)
 })
+
+
+test_that("filter string contains", {
+  actual <- rFunction(
+    data = test_data, variab = "nickname",
+    rel = "contains", valu = "dog", time = FALSE
+  )
+  expected_count <- 62
+  expect_equal(nrow(actual), expected_count)
+})
+
+
+test_that("filter string contains", {
+  actual <- rFunction(
+    data = test_data, variab = "nickname",
+    rel = "contains", valu = "dog,cat", time = FALSE
+  )
+  expected_count <- 3169
+  expect_equal(nrow(actual), expected_count)
+})
+
 
 
 test_that("filter date convert test_date_str ==", {
@@ -167,6 +190,15 @@ test_that("error 'other' not set", {
   actual <- rFunction(
     data = test_data, variab = "other", other = NULL,
     rel = "<", valu = "2006-01-01", time = TRUE
+  )
+  expect_null(actual)
+})
+
+
+test_that("error 'contains' rel with time", {
+  actual <- rFunction(
+    data = test_data, variab = "deploy_off_timestamp",
+    other = NULL, rel = "contains", valu = "2006-01-01", time = TRUE
   )
   expect_null(actual)
 })

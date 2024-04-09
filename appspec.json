@@ -13,36 +13,32 @@
           "displayText": "Animal ID"
         },
         {
-          "value": "sex",
-          "displayText": "Animal sex"
-        },
-        {
           "value": "nick_name",
           "displayText": "Animal nickname"
+        },
+        {
+          "value": "sex",
+          "displayText": "Animal sex"
         },
         {
           "value": "animal_group_id",
           "displayText": "Animal group ID (e.g., herd, pack, nest, family group)."
         },
         {
-          "value": "individual_number_of_deployments",
-          "displayText": "Number of deployments per animal (numeric)"
+          "value": "study_site",
+          "displayText": "Study site location (e.g, deployment site, study site, or colony name.)"
         },
         {
-          "value": "tag_id",
-          "displayText": "Tag ID"
+          "value": "tag_manufacturer_name",
+          "displayText": "Tag manufacturer name"
         },
         {
-          "value": "deployment_id",
-          "displayText": "Deployment Identifier"
-        },
-        {
-          "value": "sensor_type_ids",
-          "displayText": "Sensor type"
+          "value": "manipulation_type",
+          "displayText": "Manipulation type"
         },
         {
           "value": "other",
-          "displayText": "Other property (define below)"
+          "displayText": "Other (define below)"
         }
       ]
     },
@@ -54,41 +50,9 @@
       "type": "STRING"
     },
     {
-      "id": "rel",
-      "name": "Filter Relation",
-      "description": "Choose how you want to filter by track data field you selected. (Note that ‘==’, ‘>’, or ‘<’ can only be used predictably for numeric and timestamp variables.)",
-      "defaultValue": "==",
-      "type": "DROPDOWN",
-      "options": [
-        {
-          "value": "%in%",
-          "displayText": "is one of the following options (categorical option, e.g. sex (m, f))"
-        },
-        {
-          "value": "==",
-          "displayText": "== (equals)"
-        },
-        {
-          "value": ">",
-          "displayText": "> (is greater than)"
-        },
-        {
-          "value": "<",
-          "displayText": "< (is less than)"
-        }
-      ]
-    },
-    {
-      "id": "valu",
-      "name": "Filter Value",
-      "description": "Insert a value(s) for the track data field you selected. If you selected 'is one of the following options' above, insert comma-separated values here (e.g., m,f). If you enter a timestamp, please ensure it is in UTC and follows the format ‘YYYY-mm-dd HH:MM:SS’ (e.g., 1992-10-24 or 1992-10-24 10:23:14).",
-      "defaultValue": null,
-      "type": "STRING"
-    },
-    {
       "id": "time",
       "name": "Time field?",
-      "description": "Please selet 'Yes' if your filtering field is a timestamp.",
+      "description": "Please selet 'Yes' if your Track Data Field is of type timestamp.",
       "defaultValue": false,
       "type": "RADIOBUTTONS",
       "options": [
@@ -101,6 +65,42 @@
           "displayText": "No"
         }
       ]
+    },
+    {
+      "id": "rel",
+      "name": "Filter Relation",
+      "description": "Choose how you want to filter by track data field you selected.",
+      "defaultValue": "==",
+      "type": "DROPDOWN",
+      "options": [
+        {
+          "value": "==",
+          "displayText": "= (equals)"
+        },
+        {
+          "value": ">",
+          "displayText": "> (is greater than)"
+        },
+        {
+          "value": "<",
+          "displayText": "< (is less than)"
+        },
+        {
+          "value": "%in%",
+          "displayText": "in (e.g., field sex in m,f)"
+        },
+        {
+          "value": "contains",
+          "displayText": "contains (e.g., field nickname contains 'harris')"
+        }
+      ]
+    },
+    {
+      "id": "valu",
+      "name": "Filter Value",
+      "description": "Insert a value(s) for the track data field you selected. If you selected relation 'in' above, insert comma-separated values here (e.g., m,f). If you selected relation 'contains' above, you can filter for one value (e.g., harris) or multiple values using a comma-separated list (e.g, harris,gene). If you enter a timestamp, please ensure it is in UTC and follows the format ‘YYYY-mm-dd HH:MM:SS’ (e.g., 1992-10-24 or 1992-10-24 10:23:14).",
+      "defaultValue": null,
+      "type": "STRING"
     }
   ],
   "dependencies": {
