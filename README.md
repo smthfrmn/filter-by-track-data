@@ -23,7 +23,7 @@ none
 
 **Other (`other`):** Name of the required individual parameter, if for `variab` 'other' has been selected. The 'Other' field must exist in the track data, app will log error and return a null result if the field is not present in the track data.
 
-**Filter Relation (`rel`):** By this parameter the relation in the required filter has to be selected. The possible values differ by parameter data type, only numeric and timestamp fields can relate by '==', '>' or '<'.
+**Filter Relation (`rel`):** By this parameter the relation in the required filter has to be selected. The possible values differ by parameter data type, only numeric and timestamp fields can relate by '>' or '<' predictably.
 
 **Filter Value (`valu`):** Value of the relation that the filtered part of the data set has to fulfill. In case of `rel` = 'is one of the following' commas have to be used to separate the possible values. In case of a timestamp parameter, please use the timestamp format with year, month, day, hour, minute and second as in the example: '2021-06-23 09:34:00'." [TODO]
 

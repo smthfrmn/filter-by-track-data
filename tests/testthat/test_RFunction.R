@@ -1,10 +1,11 @@
+source(here("tests/testthat/helper.R"))
+
 test_data <- test_data("input3_move2loc_LatLon.rds") |>
   mutate_track_data(
     sex = c("f", "f", "f", "u", "m"),
     test_date_str = format(deploy_off_timestamp),
     study_number_of_deployments = c(5, 5, 5, 5, 3)
   )
-
 
 test_that("filter number tag_id ==", {
   actual <- rFunction(data = test_data, variab = "tag_id", rel = "==", valu = "1898887")
@@ -59,6 +60,16 @@ test_that("filter date deploy_off_timestamp <", {
     rel = "<", valu = "2006-01-01", time = TRUE
   )
   expected_count <- 937
+  expect_equal(nrow(actual), expected_count)
+})
+
+
+test_that("filter date deploy_off_timestamp %in%", {
+  actual <- rFunction(
+    data = test_data, variab = "deploy_off_timestamp",
+    rel = "%in%", valu = "2006-12-23,1999-05-20", time = TRUE
+  )
+  expected_count <- 2534
   expect_equal(nrow(actual), expected_count)
 })
 
@@ -159,15 +170,6 @@ test_that("error 'other' not set", {
   )
   expect_null(actual)
 })
-
-
-# test_that("error using > for non-numeric field", {
-#   actual <- rFunction(
-#     data = test_data, variab = "other", other = "death_comments",
-#     rel = "<", valu = "2006-01-01", time = TRUE
-#   ) 
-#   expect_null(actual)
-# })
 
 
 test_that("filter by multiple strings", {
