@@ -5,7 +5,7 @@ library("rapportools")
 
 rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
   result <- NULL
-  
+
   # validate input settings
   variab <- if (variab != "other") trimws(variab) else trimws(other)
   valu <- trimws(valu)
@@ -20,7 +20,7 @@ rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
     logger.error("Relation 'contains' is not supported for time fields, please pick a different relation to filter by.")
     return(result)
   }
-  
+
   track_attribute_fields <- names(move2::mt_track_data(data))
 
   if (!variab %in% track_attribute_fields) {
@@ -29,19 +29,21 @@ rFunction <- function(data, variab, other = NULL, rel, valu, time = FALSE) {
   }
 
   # begin actual filtering
-  
+
   # handle vector versus string value
-  value_split <- if(rel == "%in%" | rel == "contains") strsplit(as.character(valu), ",")[[1]] else str_interp("'${valu}'")
-  
+  value_split <- if (rel == "%in%" | rel == "contains") strsplit(as.character(valu), ",")[[1]] else valu
+  value_split <- if (rel != "contains" & length(value_split) == 1) stringr::str_interp("'${value_split}'") else value_split
+
   # handle value if time
-  value_str <- if(isTRUE(time)) stringr::str_interp("as.POSIXct(${value_split}, tz = 'UTC')") else value_split
-  
+  value_str <- if (isTRUE(time)) stringr::str_interp("as.POSIXct(${value_split}, tz = 'UTC')") else value_split
+
   # handle variab if time
-  variab_str <- if(isTRUE(time)) stringr::str_interp("as.POSIXct(${variab}, tz = 'UTC')") else variab
+  variab_str <- if (isTRUE(time)) stringr::str_interp("as.POSIXct(${variab}, tz = 'UTC')") else variab
 
   if (rel == "contains") {
     filter_str <- stringr::str_interp(
-      "stringr::str_detect(${variab_str}, '${paste(value_str, collapse = '|')}')")
+      "stringr::str_detect(${variab_str}, '${paste(value_str, collapse = '|')}')"
+    )
   } else {
     filter_str <- stringr::str_interp("${variab_str} ${rel} ${value_str}")
   }

@@ -75,6 +75,15 @@ test_that("filter date deploy_off_timestamp %in%", {
   expect_equal(nrow(actual), expected_count)
 })
 
+test_that("filter date deploy_off_timestamp %in%", {
+  actual <- rFunction(
+    data = test_data, variab = "deploy_off_timestamp",
+    rel = "%in%", valu = "2006-12-23", time = TRUE
+  )
+  expected_count <- 2232
+  expect_equal(nrow(actual), expected_count)
+})
+
 
 test_that("filter string contains", {
   actual <- rFunction(
@@ -131,7 +140,7 @@ test_that("filter 'Other' non-integer works", {
   actual <- rFunction(
     data = test_data, variab = "other",
     other = "study_number_of_deployments",
-    rel = "==", valu = '5'
+    rel = "==", valu = "5"
   )
   expected_count <- 937
   expect_equal(nrow(actual), expected_count)
@@ -210,5 +219,14 @@ test_that("filter by multiple strings", {
     rel = "%in%", valu = "m,f"
   )
   expected <- 2596
+  expect_equal(expected, nrow(actual))
+})
+
+test_that("filter by %in% for single string", {
+  actual <- rFunction(
+    data = test_data, variab = "sex",
+    rel = "%in%", valu = "f"
+  )
+  expected <- 364
   expect_equal(expected, nrow(actual))
 })
