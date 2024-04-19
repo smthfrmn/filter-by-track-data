@@ -4,7 +4,7 @@
     {
       "id": "variab",
       "name": "Track Data Field",
-      "description": "The track data field by which you want to filter your tracks. We've provided options for common fields users want to filter by and 'Other' for any other fields available in the track data. If you select 'Other', please provide the field name below. Tracks matching your filter settings (Track Data Field and Filter Value) will be retained. The track data is populated from your data sets' reference and study data in Movebank, so optimally use this App after a Movebank App. If your results include less data than expected, this can be because the fields are not populated in your data set. To see what fields are available in your track data, download the file output by the Movebank App. For a list of all potential track data fields, please refer to the Movebank Attribute Dictionary (https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary).",
+      "description": "The track data field by which you want to filter your tracks. Choose from several common fields, or use 'Other' to filter by another field in the data set. If you select 'Other', please provide the field name below. The track data is populated from your data sets' reference data and study details in Movebank, so optimally use this App after a Movebank Location App. If your results include less data than expected, this can be because the fields are not populated in your data set. To see what fields are available in your track data, view the cargo agent or the file output of the Movebank Location App. For a list of all potential track data fields, please refer to the Movebank Attribute Dictionary (https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary).",
       "defaultValue": "individual_local_identifier",
       "type": "DROPDOWN",
       "options": [
@@ -21,7 +21,7 @@
           "displayText": "Animal sex"
         },
         {
-          "value": "animal_group_id",
+          "value": "group_id",
           "displayText": "Animal group ID (e.g., herd, pack, nest, family group)."
         },
         {
@@ -29,7 +29,7 @@
           "displayText": "Study site location (e.g, deployment site, study site, or colony name.)"
         },
         {
-          "value": "tag_manufacturer_name",
+          "value": "manufacturer_name",
           "displayText": "Tag manufacturer name"
         },
         {
@@ -45,7 +45,7 @@
     {
       "id": "other",
       "name": "Other: ",
-      "description": "The name of the track data field on which you want to filter. Make sure the name you provide is an exact match to the field in your data set. For example, if the field you want to filter on is 'capture_location', type 'capture_location' and not 'CaptureLocation' or 'capturelocation'.",
+      "description": "The name of the track data field on which you want to filter. Make sure the name you provide is an exact match to the field in your data set. For example, if the field you want to filter on is 'capture_location', entering 'capturelocation' will lead to an error.",
       "defaultValue": null,
       "type": "STRING"
     },
@@ -98,7 +98,7 @@
     {
       "id": "valu",
       "name": "Filter Value",
-      "description": "Insert a value(s) for the track data field you selected. If you selected relation 'in' above, insert comma-separated values here (e.g., m,f). If you selected relation 'contains' above, you can filter for one value (e.g., harris) or multiple values using a comma-separated list (e.g, harris,gene). If you enter a timestamp, please ensure it is in UTC and follows the format ‘YYYY-mm-dd HH:MM:SS’ (e.g., 1992-10-24 or 1992-10-24 10:23:14).",
+      "description": "Insert the value(s) for the selected track data field to retain in your data set. If you selected relation 'in' above, insert comma-separated values here (e.g., m,f). If you selected relation 'contains' above, you can filter for one value (e.g., harris) or multiple values using a comma-separated list (e.g, harris,gene). If you enter a timestamp, please ensure it is in UTC and follows the format ‘YYYY-mm-dd HH:MM:SS’ (e.g., 1992-10-24 or 1992-10-24 10:23:14).",
       "defaultValue": null,
       "type": "STRING"
     }
